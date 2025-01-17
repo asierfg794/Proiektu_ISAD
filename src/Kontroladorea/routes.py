@@ -1,11 +1,15 @@
 
 from flask import Flask, render_template, request, redirect, url_for, flash
-from Eredua.Filma import Filma
-from Eredua.Erabiltzailea import Erabiltzailea
-from Eredua.Alokatu import Alokatu
-from Eredua.api import api
+from ..Eredua.Filma import Filma
+from ..Eredua.Erabiltzailea import Erabiltzailea
+from ..Eredua.Alokatu import Alokatu
+from ..Eredua.api import api
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='src/Bista')
+
+@app.route("/")
+def index():
+    return "Kaixo mundua!"
 
 @app.route("/pelikulak")
 def pelikulak_erakutsi():
@@ -27,3 +31,5 @@ def eskaera_egin(titulo,api_key):
     eskaerak = api().eskaera_egin(titulo,api_key)
     return render_template("eskaerak.html", eskaerak=eskaerak)
 
+if __name__ == "__main__":
+    app.run(debug=True)
