@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="eu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIDEOKLUBA - Katalogoa</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+        }
+        .catalogo {
+            margin-top: 20px;
+        }
+        .pelikula {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>BIDEOKLUBA - Katalogoa</h1>
+        <div class="catalogo">
+            {% for pelicula in peliculas %}
+                <div class="pelikula">{{ pelicula.titulo }}</div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
