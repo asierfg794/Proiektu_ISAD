@@ -4,8 +4,11 @@ from ..Eredua.Pelikula import Pelikula
 from ..Eredua.Erabiltzailea import Erabiltzailea
 from ..Eredua.Alokatu import Alokatu
 from ..Eredua.api import api
+from ..Eredua.DB_Hasieratu import init_db
 
 app = Flask(__name__, template_folder='src/Bista')
+
+init_db()
 
 @app.route("/")
 def index():
