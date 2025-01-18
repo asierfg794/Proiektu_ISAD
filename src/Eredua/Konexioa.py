@@ -11,8 +11,8 @@ class Konexioa:
 
 	def __init__(self):
 		if not self.__initialized:
-			db_path = os.path.join(os.path.dirname(__file__), "..", "src", "datubase.db")
-			self.con = sqlite3.connect("db_path", check_same_thread=False)
+			db_path = os.path.join(os.path.dirname(__file__), "..", "datubase.db")
+			self.con = sqlite3.connect(db_path, check_same_thread=False)
 			self.cur = self.con.cursor()
 			self.__initialized = True
 

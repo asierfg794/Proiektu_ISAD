@@ -1,4 +1,7 @@
 import sqlite3
+from .Konexioa import Konexioa
+
+db = Konexioa()
 class Pelikula:
     def __init__(self, db_name="datubase.db"):
         self.db_name = db_name
@@ -12,11 +15,11 @@ class Pelikula:
     
     def pelikulak_lortu(self):
         
-        conexion = self.connect()
-        cursor = conexion.cursor()
-        cursor.execute("SELECT id_pelikula, izena, deskribapena, puntuazioa, alokairuKop, iruzkinKop FROM pelikulak")
-        pelikulak = cursor.fetchall()
-        conexion.close()
+        #conexion = self.connect()
+        #cursor = conexion.cursor()
+        pelikulak = db.select("SELECT id_pelikula, izena, deskribapena, alokairuKopurua, iruzkinKopurua FROM pelikula")
+        #pelikulak = cursor.fetchall()
+        #conexion.close()
         return pelikulak
     
     

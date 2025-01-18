@@ -6,7 +6,7 @@ from ..Eredua.Alokatu import Alokatu
 from ..Eredua.api import api
 from ..Eredua.DB_Hasieratu import init_db
 
-app = Flask(__name__, template_folder='src/Bista')
+app = Flask(__name__, template_folder='../Bista')
 
 init_db()
 
