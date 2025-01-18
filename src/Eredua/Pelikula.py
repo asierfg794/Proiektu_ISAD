@@ -1,5 +1,5 @@
 import sqlite3
-class Filma:
+class Pelikula:
     def __init__(self, db_name="datubase.db"):
         self.db_name = db_name
     
