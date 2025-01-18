@@ -1,6 +1,6 @@
 
 from flask import Flask, render_template, request, redirect, url_for, flash
-from ..Eredua.Filma import Filma
+from ..Eredua.Pelikula import Pelikula
 from ..Eredua.Erabiltzailea import Erabiltzailea
 from ..Eredua.Alokatu import Alokatu
 from ..Eredua.api import api
@@ -13,7 +13,7 @@ def index():
 
 @app.route("/pelikulak")
 def pelikulak_erakutsi():
-    pelikulak = Filma().pelikulak_lortu()
+    pelikulak = Pelikula().pelikulak_lortu()
     return render_template("pelikulak.html", pelikulak=pelikulak)
 
 @app.route("/pelikulak/alokatu/<int:id_pelikula>", methods=["POST"])

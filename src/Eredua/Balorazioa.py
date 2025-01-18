@@ -1,4 +1,4 @@
-from Filma import Filma
+from Eredua.Pelikula import Filma
 
 class Balorazioa:
     def Balorazioa(self, erabiltzailea, filma, puntuazioa, iruzkina):

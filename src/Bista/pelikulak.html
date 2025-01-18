@@ -29,6 +29,9 @@
         <div class="catalogo">
             {% for pelicula in peliculas %}
                 <div class="pelikula">{{ pelicula.titulo }}</div>
+                <form action="/pelikulak/alokatu/{{ pelikula[0] }}" method="POST">
+                    <button type="submit">ALOKATU</button>
+                </form>
             {% endfor %}
         </div>
     </div>

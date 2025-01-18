@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NIRE PELIKULAK</title>
+</head>
+<body>
+    <h1>Alokatutako Pelikulak</h1>
+    <ul>
+        {% for pelikula in pelikulak %}
+        <li>{{ pelikula[0] }} ({{ pelikula[1] }})</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
