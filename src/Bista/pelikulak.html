@@ -80,6 +80,9 @@
         .pelikula-info {
             flex-grow: 1;
         }
+        .puntuazioa {
+            display: none; /* Ocultar puntuaciones por defecto */
+        }
         .pelikula h2 {
             margin: 0;
             font-size: 1.5rem;
@@ -104,20 +107,51 @@
             background-color: #0056b3;
         }
     </style>
+    <script>
+        function erakutsiIzkutatuPuntuazioak() {
+            var puntuazioak = document.getElementsByClassName('puntuazioa');
+            for (var i = 0; i < puntuazioak.length; i++) {
+                if (puntuazioak[i].style.display === 'none') {
+                    puntuazioak[i].style.display = 'block';
+                } else {
+                    puntuazioak[i].style.display = 'none';
+                }
+            }
+        }
+
+        function ordenatuPelikulak() {
+            var container = document.getElementById('container');
+            var pelikulak = Array.from(container.getElementsByClassName('pelikula'));
+            pelikulak.sort(function(a, b) {
+                return b.dataset.puntuazioa - a.dataset.puntuazioa;
+            });
+            pelikulak.forEach(function(pelikula) {
+                container.appendChild(pelikula);
+            });
+        }
+    </script>
 </head>
 <body>
-    <div class="container">
-        <h1>BIDEOKLUBA - Katalogoa</h1>
-        <div class="catalogo">
+    <h1>BIDEOKLUBA - Katalogoa</h1>
+    <button onclick="ordenatuPelikulak()">Ordenatu Puntuazioaren arabera</button>
+    <button onclick="erakutsiIzkutatuPuntuazioak()">Erakutsi/Izkutatu Puntuazioak</button>
+    <div id="container">
             {% for pelikula in pelikulak %}
-                <div class="pelikula">
+                <div class="pelikula" data-puntuazioa="{{ pelikula[3] }}">
                     <!-- Información de la película -->
                     <div class="pelikula-info">
                         <h2>{{ pelikula[1] }}</h2> <!-- Titulo de la película -->
                         <p>{{ pelikula[2] }}</p> <!-- Descripción de la película -->
-                        <p>Puntuazioa: {{ pelikula[3] }}</p> <!-- Puntuación de la película -->
+                        <div class="puntuazioa">
+                            <p>Puntuazioa: {{ pelikula[3] }}</p> <!-- Puntuación de la película -->
+                        </div>
                     </div>
-                    
+
+                     <!-- Botón para alquilar -->
+                     <form action="/pelikulak/iruzkinak/{{ pelikula[0] }}" method="GET">
+                        <button type="submit">IRUZKINAK</button>
+                    </form>
+
                     <!-- Botón para alquilar -->
                     <form action="/pelikulak/alokatu/{{ pelikula[0] }}" method="POST">
                         <button type="submit">ALOKATU</button>

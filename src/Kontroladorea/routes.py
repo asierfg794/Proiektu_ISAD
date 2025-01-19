@@ -1,5 +1,7 @@
 
 from flask import Flask, render_template, request, redirect, url_for, flash, session
+
+from ..Eredua.Balorazioa import Balorazioa
 from ..Eredua.Pelikula import Pelikula
 from ..Eredua.Erabiltzailea import Erabiltzailea
 from ..Eredua.Alokatu import Alokatu
@@ -213,6 +215,11 @@ def aceptar_usuario(nan):
 def pelikulak_erakutsi():
     pelikulak = Pelikula().pelikulak_lortu()
     return render_template("pelikulak.html", pelikulak=pelikulak)
+
+@app.route("/pelikulak/iruzkinak/<int:id_pelikula>", methods=["GET"])
+def pelikula_iruzkinak(id_pelikula):
+    iruzkinak = Balorazioa().iruzkinak_lortu(id_pelikula)
+    return render_template("iruzkinak.html", iruzkinak=iruzkinak)
 
 @app.route("/pelikulak/alokatu/<int:id_pelikula>", methods=["POST"])
 def pelikula_alokatu(id_pelikula):
