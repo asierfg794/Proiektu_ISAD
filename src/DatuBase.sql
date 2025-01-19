@@ -24,3 +24,12 @@ create table Alokairua (
     foreign key (NAN) references Erabiltzailea(NAN),
     foreign key (id_pelikula) references Film(id_pelikula)
 );
+create table Eskaera (
+    id int primary key,
+    NAN varchar(9),
+    id_pelikula int,
+    estado varchar(20) default 'pendiente',
+    fecha_solicitud timestamp default current_timestamp,
+    foreign key (NAN) references Erabiltzailea(NAN),
+    foreign key (id_pelikula) references Film(id_pelikula)
+);

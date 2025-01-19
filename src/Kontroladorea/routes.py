@@ -184,8 +184,20 @@ def pelikulak_erakutsi():
 
 @app.route("/pelikulak/iruzkinak/<int:id_pelikula>", methods=["GET"])
 def pelikula_iruzkinak(id_pelikula):
+    pelikula = Pelikula().pelikula_lortu(id_pelikula)
     iruzkinak = Balorazioa().iruzkinak_lortu(id_pelikula)
-    return render_template("iruzkinak.html", iruzkinak=iruzkinak)
+    return render_template("iruzkinak.html", pelikula=pelikula, balorazioak=iruzkinak)
+
+@app.route("/pelikulak/iruzkinak/<int:id_pelikula>/baloratu", methods=["GET","POST"])
+def baloratu(id_pelikula):
+    #if request.method == "GET":
+    if request.method == "POST":
+        puntuazioa = request.form["puntuazioa"]
+        iruzkina = request.form["iruzkina"]
+        Balorazioa().balorazioa_gorde(id_pelikula, session["nan"], puntuazioa, iruzkina)
+        return redirect(f"/pelikulak/iruzkinak/{id_pelikula}")
+    pelikula = Pelikula().pelikula_lortu(id_pelikula)
+    return render_template("baloratu.html", pelikula=pelikula)
 
 @app.route("/pelikulak/alokatu/<int:id_pelikula>", methods=["POST"])
 def pelikula_alokatu(id_pelikula):
@@ -199,6 +211,19 @@ def alokatuak_erakutsi():
     for pelikula in pelikulak:
         pelikula[2] = datetime.strptime(pelikula[2], '%Y-%m-%d %H:%M:%S.%f')
     return render_template("alokatuak.html", pelikulak=pelikulak, datetime=datetime)
+
+@app.route('/eskaerak', methods=['GET'])
+def listar_solicitudes():
+    # Verificar si el usuario está logueado y es administrador
+    if 'nan' not in session or not session.get('is_admin', False):
+        return redirect('/login')
+    
+    # Obtener todas las solicitudes pendientes
+    solicitudes = db.select("SELECT * FROM eskaerak WHERE estado = 'pendiente'")
+    
+    # Renderizar la página HTML con las solicitudes
+    return render_template("eskaerak.html", solicitudes=solicitudes)
+
 
 @app.route('/eskaera/aceptar/<int:id>', methods=['POST'])
 def aceptar_solicitud(id):

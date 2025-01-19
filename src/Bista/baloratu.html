@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="eu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baloratu</title>
+    <style>
+        .rating {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .rating label {
+            margin: 0 5px;
+        }
+        .comment {
+            display: flex;
+            justify-content: center;
+        }
+        .comment textarea {
+            width: 80%;
+            height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Zure balorazioa egin:</h1>
+    <form action="/pelikulak/iruzkinak/{{ pelikula[0] }}/baloratu" method="POST">
+        <h2>Puntuazioa:</h2>
+        <div class="puntuazioa">
+            {% for i in range(11) %}
+            <label>
+                <input type="radio" name="puntuazioa" value="{{ i }}"> {{ i }}
+            </label>
+            {% endfor %}
+        </div>
+        <h2>Iruzkina:</h2>
+        <div class="iruzkina">
+            <textarea name="iruzkina" placeholder="Idatzi zure iruzkina hemen..."></textarea>
+        </div>
+        <div class="bidali">
+            <button type="submit">Bidali</button>
+        </div>
+    </form>
+</body>
+</html>

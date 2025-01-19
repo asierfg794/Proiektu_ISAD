@@ -13,8 +13,11 @@ class Pelikula:
     def inf_lortu(self):
         return f"{self.id} - {self.izena} - {self.deskribapena} - {self.puntuazioa} - {self.alokairuKop} - {self.iruzkinKop}"
     
+    def pelikula_lortu(self, id_pelikula):
+        query = "SELECT * FROM pelikula WHERE id_pelikula = ?"
+        return db.select(query, (id_pelikula,))[0]
+    
     def pelikulak_lortu(self):
-        
         #conexion = self.connect()
         #cursor = conexion.cursor()
         pelikulak = db.select("SELECT id_pelikula, izena, deskribapena, puntuazioa alokairuKopurua, iruzkinKopurua FROM pelikula")
