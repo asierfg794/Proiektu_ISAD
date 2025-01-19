@@ -6,14 +6,14 @@
     <title>BIDEOKLUBA</title>
     <style>
         body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            display: vertical;
+            justify-content: left;
+            align-items: left;
             height: 100vh;
             margin: 0;
         }
         .container {
-            text-align: center;
+            text-align: left;
         }
         input, button {
             display: block;
@@ -22,9 +22,11 @@
     </style>
 </head>
 <body>
+    <p>Zure balorazioa utzi edo aldatu <a href="/pelikulak/iruzkinak/{{ pelikula[0] }}/baloratu">hemen</a>.</p>
+    <br>----------------IRUZKINAK-----------------</br>
     <div class="container">
         {% for balorazioa in balorazioak %}
-            <p>{{ balorazioa[3] }}</p>
+            <p>{{ balorazioa[0] }}</p>
             <p>_______________________________________________</p>
         {% endfor %}
     </div>

@@ -184,8 +184,20 @@ def pelikulak_erakutsi():
 
 @app.route("/pelikulak/iruzkinak/<int:id_pelikula>", methods=["GET"])
 def pelikula_iruzkinak(id_pelikula):
+    pelikula = Pelikula().pelikula_lortu(id_pelikula)
     iruzkinak = Balorazioa().iruzkinak_lortu(id_pelikula)
-    return render_template("iruzkinak.html", iruzkinak=iruzkinak)
+    return render_template("iruzkinak.html", pelikula=pelikula, balorazioak=iruzkinak)
+
+@app.route("/pelikulak/iruzkinak/<int:id_pelikula>/baloratu", methods=["GET","POST"])
+def baloratu(id_pelikula):
+    #if request.method == "GET":
+    if request.method == "POST":
+        puntuazioa = request.form["puntuazioa"]
+        iruzkina = request.form["iruzkina"]
+        Balorazioa().balorazioa_gorde(id_pelikula, session["nan"], puntuazioa, iruzkina)
+        return redirect(f"/pelikulak/iruzkinak/{id_pelikula}")
+    pelikula = Pelikula().pelikula_lortu(id_pelikula)
+    return render_template("baloratu.html", pelikula=pelikula)
 
 @app.route("/pelikulak/alokatu/<int:id_pelikula>", methods=["POST"])
 def pelikula_alokatu(id_pelikula):
