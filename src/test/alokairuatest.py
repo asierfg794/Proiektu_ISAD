@@ -5,27 +5,28 @@ class TestAlokairua(unittest.TestCase):
     def setUpClass(cls):
         #memorian gordetzen dugu datu basea
         cls.alokatu = Alokatu()
+        cls.alokatu.connect()
         cls.alokatu.conexion.execute("""
             CREATE TABLE alokairua (
-                NAN TEXT,
+                NAN VARCHAR(9),
                 id_pelikula INTEGER,
-                hasieraData TEXT,
-                amaieraData TEXT,
+                hasieraData DATE,
+                amaieraData DATE,
                 FOREIGN KEY (id_pelikula) REFERENCES pelikula(id)
             )
         """)
         cls.alokairua.conexion.commit()
 
-    def test_reservar_pelicula(self):
+    def pelikula_erreserba_test(self):
         # Pelikula bat alokatzen duen funtzioa probatzen du
         self.alokatu.pelikulak_alokatu('12345678A', 1)
-        res = self.alokairua.conexion.execute("SELECT * FROM alokairua WHERE NAN = '12345678A'").fetchone()
+        res = self.alokatu.conexion.execute("SELECT * FROM alokairua WHERE NAN = '12345678A'").fetchone()
 
         self.assertIsNotNone(res, "Ez da erreserbarik aurkitu.")
         self.assertEqual(res[0], '12345678A', "NAN-a ez da zuzena.")
         self.assertEqual(res[1], 1, "Pelikularen ID-a ez da zuzena.")
 
-    def test_obtener_peliculas_alquiladas(self):
+    def test_pelikua_alokatuak_lortu(self):
         # Pelikula bat alokatzen duen funtzioa probatzen du
         self.alokatu.pelikulak_alokatu('12345678A', 1)
         self.alokatu.pelikulak_alokatu('12345678A', 2)
@@ -38,8 +39,8 @@ class TestAlokairua(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         #datu basea ezabatzen dugu
-        cls.alokairua.conexion.execute("DROP TABLE IF EXISTS alokairua")
-        cls.alokairua.cerrar_conexion()
+        cls.alokatu.conexion.execute("DROP TABLE IF EXISTS alokairua")
+        cls.alokatu.disconnect()
 
 if __name__ == '__main__':
     unittest.main()

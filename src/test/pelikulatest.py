@@ -6,20 +6,21 @@ class TestPelikulak(unittest.TestCase):
     def setUpClass(cls):
         #Datu basearen konexioa sortu memorian
         cls.Pelikula = Pelikula()
-        cls.Pelikula.connect.execute("""
+        cls.Pelikula.connect()
+        cls.Pelikula.conexion.execute("""
             CREATE TABLE pelikulak (
                 id INTEGER PRIMARY KEY,
-                izena TEXT,
-                deskribapena TEXT,
-                puntuazioa REAL,
+                izena VARCHAR(100),
+                deskribapena VARCHAR(500),
+                puntuazioa FLOAT,
                 alokairuKop INTEGER,
                 iruzkinKop INTEGER
             )
         """)
-        cls.pelikulak.connect.execute("""INSERT INTO pelikulak (id, izena, deskribapena, puntuazioa, alokairuKop, iruzkinKop) VALUES (1, 'Inception', 'Un ladrón que roba secretos a través del sueño', 8.8, 120, 50)""")
-        cls.pelikulak.coneect.execute("""INSERT INTO pelikulak (id, izena, deskribapena, puntuazioa, alokairuKop, iruzkinKop) VALUES (2, 'Titanic', 'Un romance trágico a bordo del Titanic', 7.8, 200, 150)""")
-        cls.pelikulak.connect.execute("""INSERT INTO pelikulak (id, izena, deskribapena, puntuazioa, alokairuKop, iruzkinKop) VALUES (3, 'El Señor de los Anillos', 'La lucha épica por la Tierra Media', 9.0, 300, 100)""")
-        cls.pelikulak.connect.commit()
+        cls.pelikulak.conexion.execute("""INSERT INTO pelikulak (id, izena, deskribapena, puntuazioa, alokairuKop, iruzkinKop) VALUES (1, 'Inception', 'Un ladrón que roba secretos a través del sueño', 8.8, 120, 50)""")
+        cls.pelikulak.conexion.execute("""INSERT INTO pelikulak (id, izena, deskribapena, puntuazioa, alokairuKop, iruzkinKop) VALUES (2, 'Titanic', 'Un romance trágico a bordo del Titanic', 7.8, 200, 150)""")
+        cls.pelikulak.conexion.execute("""INSERT INTO pelikulak (id, izena, deskribapena, puntuazioa, alokairuKop, iruzkinKop) VALUES (3, 'El Señor de los Anillos', 'La lucha épica por la Tierra Media', 9.0, 300, 100)""")
+        cls.pelikulak.conexion.commit()
 
     def test_pelikua_guztiak_lortu(self):
         #Pelicula guztiak lortu atrubutu guztiekin
@@ -32,8 +33,8 @@ class TestPelikulak(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         #db ezabatu
-        cls.Pelikula.connect.execute("DROP TABLE IF EXISTS pelikulak")
-        cls.Pelikula.connect.()
+        cls.Pelikula.conexion.execute("DROP TABLE IF EXISTS pelikulak")
+        cls.Pelikula.disconnect()
 
 if __name__ == '__main__':
     unittest.main()

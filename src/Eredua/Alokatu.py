@@ -11,6 +11,9 @@ class Alokatu:
     def connect(self):
         conexion = sqlite3.connect(self.db_name)
         return conexion
+    
+    def disconnect(self):
+        self.conexion.close()
 
     def pelikulak_alokatu(self, id_pelikula, NAN):
         
