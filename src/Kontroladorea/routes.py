@@ -215,12 +215,12 @@ def pelikulak_erakutsi():
 
 @app.route("/pelikulak/alokatu/<int:id_pelikula>", methods=["POST"])
 def pelikula_alokatu(id_pelikula):
-    Alokatu().pelikulak_alokatu(id_pelikula,Erabiltzailea().nan)
+    Alokatu().pelikulak_alokatu(id_pelikula,session["nan"])
     return redirect("/pelikulak")
 
 @app.route("/alokatuak")
 def alokatuak_erakutsi():
-    pelikulak = Alokatu().pelikula_alokatuak_lortu(Erabiltzailea().nan)
+    pelikulak = Alokatu().pelikula_alokatuak_lortu(session["nan"])
     return render_template("alokatuak.html", pelikulak=pelikulak)
 
 @app.route("/eskaerak")

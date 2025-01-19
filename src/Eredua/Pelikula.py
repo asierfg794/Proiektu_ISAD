@@ -17,10 +17,13 @@ class Pelikula:
         
         #conexion = self.connect()
         #cursor = conexion.cursor()
-        pelikulak = db.select("SELECT id_pelikula, izena, deskribapena, alokairuKopurua, iruzkinKopurua FROM pelikula")
+        pelikulak = db.select("SELECT id_pelikula, izena, deskribapena, puntuazioa alokairuKopurua, iruzkinKopurua FROM pelikula")
         #pelikulak = cursor.fetchall()
         #conexion.close()
         return pelikulak
+    
+
+
     
     
     

@@ -1,4 +1,7 @@
 import sqlite3
+from .Konexioa import Konexioa
+
+db = Konexioa()
 class Alokatu:
     def __init__(self, db_name="datubase.db"):
         self.db_name = db_name
@@ -9,22 +12,20 @@ class Alokatu:
 
     def pelikulak_alokatu(self, id_pelikula, NAN):
         
-        conexion = self.connect()
-        cursor = conexion.cursor()
-        cursor.execute("SELECT alokairuKop FROM pelikulak WHERE id_pelikula = %s", (id_pelikula,))
+        
+        alokairuKop = db.select("SELECT alokairuKopurua FROM pelikula WHERE id_pelikula = ?", (id_pelikula,))
+        """
         alokairuKop = cursor.fetchone()
-        alokairuKop = alokairuKop[0]
-        alokairuKop -= 1
-        cursor.execute("UPDATE pelikulak SET alokairuKop = %s WHERE id_pelikula = %s", (alokairuKop, id_pelikula))
-        cursor.execute("INSERT INTO alokairuak (NAN, id_pelikula) VALUES (%s, %s)", (NAN, id_pelikula))
-        conexion.commit()
-        conexion.close()
+        """
+        alokairuKop = alokairuKop[0][0]
+        alokairuKop += 1
+        
+        db.update("UPDATE pelikula SET alokairuKopurua=? WHERE id_pelikula = ?", (alokairuKop, id_pelikula))
+        db.insert("INSERT INTO alokairua (NAN, id_pelikula) VALUES (?,?)", (NAN, id_pelikula))
     
     def pelikula_alokatuak_lortu(self, NAN):
         
-        conexion = self.connect()
-        cursor = conexion.cursor()
-        cursor.execute("SELECT id_pelikula FROM alokairuak WHERE NAN = %s", (NAN,))
-        id_pelikulak = cursor.fetchall()
-        conexion.close()
-        return id_pelikulak
+        
+        pelikulak = db.select("SELECT p.izena, p.deskribapena, a.hasieraData, a.amaieraData FROM alokairua a JOIN pelikula p ON a.id_pelikula = p.id_pelikula WHERE a.nan = ?", (NAN,))
+
+        return pelikulak

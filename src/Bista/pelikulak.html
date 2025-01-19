@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!--<!DOCTYPE html>
 <html lang="eu">
 <head>
     <meta charset="UTF-8">
@@ -27,11 +27,102 @@
     <div class="container">
         <h1>BIDEOKLUBA - Katalogoa</h1>
         <div class="catalogo">
-            {% for pelicula in peliculas %}
-                <div class="pelikula">{{ pelicula.titulo }}</div>
+            {% for pelikula in pelikulak %}
+                <div class="pelikula">{{ pelikula.titulo }}</div>
                 <form action="/pelikulak/alokatu/{{ pelikula[0] }}" method="POST">
                     <button type="submit">ALOKATU</button>
                 </form>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="eu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIDEOKLUBA - Katalogoa</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            width: 100%;
+            max-width: 1200px; /* Limita el ancho máximo */
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .catalogo {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap; /* Permite que los elementos se ajusten */
+            gap: 20px;
+        }
+        .pelikula {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: stretch;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 15px;
+            width: 300px; /* Establece un ancho fijo para las tarjetas */
+            box-sizing: border-box;
+        }
+        .pelikula-info {
+            flex-grow: 1;
+        }
+        .pelikula h2 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+        .pelikula p {
+            margin: 5px 0;
+            text-align: left;
+            font-size: 1rem;
+            line-height: 1.4;
+        }
+        .pelikula button {
+            padding: 10px;
+            font-size: 14px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .pelikula button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>BIDEOKLUBA - Katalogoa</h1>
+        <div class="catalogo">
+            {% for pelikula in pelikulak %}
+                <div class="pelikula">
+                    <!-- Información de la película -->
+                    <div class="pelikula-info">
+                        <h2>{{ pelikula[1] }}</h2> <!-- Titulo de la película -->
+                        <p>{{ pelikula[2] }}</p> <!-- Descripción de la película -->
+                        <p>Puntuazioa: {{ pelikula[3] }}</p> <!-- Puntuación de la película -->
+                    </div>
+                    
+                    <!-- Botón para alquilar -->
+                    <form action="/pelikulak/alokatu/{{ pelikula[0] }}" method="POST">
+                        <button type="submit">ALOKATU</button>
+                    </form>
+                </div>
             {% endfor %}
         </div>
     </div>

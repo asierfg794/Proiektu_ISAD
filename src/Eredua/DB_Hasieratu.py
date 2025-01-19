@@ -31,6 +31,7 @@ def init_db():
                 id_pelikula int primary key,
                 izena varchar(50),
                 deskribapena varchar(500),
+                puntuazioa int,
                 alokairuKopurua int,
                 iruzkinKopurua int
             )
@@ -38,7 +39,7 @@ def init_db():
     
     c.execute("""
                 CREATE TABLE IF NOT EXISTS alokairua(
-                id_alokairua int primary key,
+                id_alokairua INTEGER primary key autoincrement,
                 nan varchar(9) ,
                 id_pelikula int ,
                 hasieraData date ,
@@ -60,6 +61,13 @@ def init_db():
         c.execute(f"""INSERT OR REPLACE INTO erabiltzailea VALUES ('{user['nan']}','{user['izena']}', '{user['abizena']}', '{db_password}','{user['rol']}',{user['onartu']}, '{user['onartuID']}')""")
         conn.commit()
       
+    json_path = os.path.join(fitx,"..","..", "jsons","pelikulak.json")
+    with open(json_path, 'r') as f:
+        pelikulak = json.load(f)['pelikulak']
+
+    for pelikula in pelikulak:
+        c.execute(f"""INSERT OR REPLACE INTO pelikula VALUES ('{pelikula['id_pelikula']}','{pelikula['izena']}', '{pelikula['deskribapena']}', '{pelikula['puntuazioa']}','{pelikula['alokairuKopurua']}', '{pelikula['iruzkinKopurua']}')""")
+        conn.commit()
 
     conn.commit()
     conn.close()
