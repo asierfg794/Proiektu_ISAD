@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitudes de Registro</title>
+</head>
+<body>
+    <h1>Solicitudes de Registro</h1>
+    
+    {% if usuarios %}
+        <table>
+            <tr>
+                <th>NAN</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Acción</th>
+            </tr>
+            {% for usuario in usuarios %}
+                <tr>
+                    <td>{{ usuario[0] }}</td>  <!-- Suponiendo que el NAN está en la columna 0 -->
+                    <td>{{ usuario[1] }}</td>  <!-- Nombre -->
+                    <td>{{ usuario[2] }}</td>  <!-- Apellido -->
+                    <td>
+                        <form action="{{ url_for('aceptar_usuario', nan=usuario[0]) }}" method="post">
+                            <button type="submit">Aceptar</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No hay usuarios pendientes de aceptación.</p>
+    {% endif %}
+    
+</body>
+</html>

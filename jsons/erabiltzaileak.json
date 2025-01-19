@@ -1,0 +1,31 @@
+{
+    "erabiltzaileak": [
+      {
+        "nan": "12345678A",
+        "izena": "Jon",
+        "abizena": "Ander",
+        "pasahitza": "123", 
+        "rol": true,
+        "onartu": true,
+        "onartuID": "12345678A"
+      },
+      {
+        "nan": "87654321B",
+        "izena": "Maria",
+        "abizena": "Lopez",
+        "pasahitza": "123",
+        "rol": false,
+        "onartu": false,
+        "onartuID": ""
+      },
+      {
+        "nan": "11223344C",
+        "izena": "Aitor",
+        "abizena": "Martinez",
+        "pasahitza": "123",
+        "rol": false,
+        "onartu": false,
+        "onartuID": ""
+      }
+    ]
+  }

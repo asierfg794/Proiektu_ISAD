@@ -7,6 +7,7 @@ class Erabiltzailea:
         self.abizena = abizena
         self.pasahitza = pasahitza
         self.rol = False #Erabiltzailea (True=Admin)
-        self.ezabatuta = False
+        self.onartu = False
+        self.onartuID = None
 
     

@@ -1,5 +1,7 @@
 import sqlite3
 import os.path
+from werkzeug.security import generate_password_hash
+import json
 
 def init_db():
 
@@ -9,6 +11,9 @@ def init_db():
     #if not os.path.exists(db_path):
     conn = sqlite3.connect(db_path)
     c = conn.cursor()
+    c.execute("DROP TABLE IF EXISTS erabiltzailea")
+    c.execute("DROP TABLE IF EXISTS pelikula")
+    c.execute("DROP TABLE IF EXISTS alokairua")
     c.execute("""
             CREATE TABLE IF NOT EXISTS erabiltzailea(
                 nan varchar(9) PRIMARY KEY,
@@ -16,7 +21,8 @@ def init_db():
                 abizena varchar(50),
                 pasahitza varchar(50),
                 rol boolean,
-                ezabatua boolean
+                onartu boolean,
+                onartuID varchar(9)
             )
             """)
     
@@ -43,5 +49,17 @@ def init_db():
             )
             """)
     
+    json_path = os.path.join(fitx,"..","..", "jsons","erabiltzaileak.json")
+    with open(json_path, 'r') as f:
+        erabiltzaileak = json.load(f)['erabiltzaileak']
+
+    for user in erabiltzaileak:
+        db_password = user['pasahitza']
+        hashed = generate_password_hash(db_password)
+        db_password = hashed
+        c.execute(f"""INSERT OR REPLACE INTO erabiltzailea VALUES ('{user['nan']}','{user['izena']}', '{user['abizena']}', '{db_password}','{user['rol']}',{user['onartu']}, '{user['onartuID']}')""")
+        conn.commit()
+      
+
     conn.commit()
     conn.close()
