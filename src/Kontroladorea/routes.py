@@ -1,5 +1,7 @@
 
 from flask import Flask, render_template, request, redirect, url_for, flash, session
+
+from ..Eredua.Balorazioa import Balorazioa
 from ..Eredua.Pelikula import Pelikula
 from ..Eredua.Erabiltzailea import Erabiltzailea
 from ..Eredua.Alokatu import Alokatu
@@ -214,6 +216,11 @@ def pelikulak_erakutsi():
     pelikulak = Pelikula().pelikulak_lortu()
     return render_template("pelikulak.html", pelikulak=pelikulak)
 
+@app.route("/pelikulak/iruzkinak/<int:id_pelikula>", methods=["GET"])
+def pelikula_iruzkinak(id_pelikula):
+    iruzkinak = Balorazioa().iruzkinak_lortu(id_pelikula)
+    return render_template("iruzkinak.html", iruzkinak=iruzkinak)
+
 @app.route("/pelikulak/alokatu/<int:id_pelikula>", methods=["POST"])
 def pelikula_alokatu(id_pelikula):
     Alokatu().pelikulak_alokatu(id_pelikula,session["nan"])
@@ -227,10 +234,44 @@ def alokatuak_erakutsi():
         pelikula[2] = datetime.strptime(pelikula[2], '%Y-%m-%d %H:%M:%S.%f')
     return render_template("alokatuak.html", pelikulak=pelikulak, datetime=datetime)
 
-@app.route("/eskaerak")
-def eskaera_egin(titulo,api_key):
-    eskaerak = api().eskaera_egin(titulo,api_key)
-    return render_template("eskaerak.html", eskaerak=eskaerak)
+@app.route('/eskaera/aceptar/<int:id>', methods=['POST'])
+def aceptar_solicitud(id):
+    # Verificar si el usuario es administrador
+    if 'nan' not in session or not session.get('is_admin', False):
+        return redirect('/login')
+    
+    # Obtener la película solicitada
+    solicitud = db.select("SELECT * FROM eskaerak WHERE id = ?", (id,))
+    if solicitud:
+        # Insertar la película en el catálogo de películas
+        pelicula = solicitud[0]
+        db.insert("""
+            INSERT INTO pelikula (id_pelikula, izena, deskribapena, puntuazioa, alokairuKopurua, iruzkinKopurua)
+            VALUES (?, ?, ?, ?, ?, ?)
+        """, (pelicula['id'], pelicula['izena'], pelicula['deskribapena'], pelicula['puntuazioa'], 
+              pelicula['alokairuKopurua'], pelicula['iruzkinKopurua']))
+        
+        # Marcar la solicitud como aceptada
+        db.update("UPDATE eskaerak SET estado = 'aceptada' WHERE id = ?", (id,))
+        flash("Película aceptada y añadida al catálogo.")
+    else:
+        flash("La solicitud no fue encontrada.")
+    
+    return redirect('/eskaerak')
+
+
+@app.route('/eskaera/rechazar/<int:id>', methods=['POST'])
+def rechazar_solicitud(id):
+    # Verificar si el usuario es administrador
+    if 'nan' not in session or not session.get('is_admin', False):
+        return redirect('/login')
+    
+    # Eliminar la solicitud o marcarla como rechazada
+    db.update("UPDATE eskaerak SET estado = 'rechazada' WHERE id = ?", (id,))
+    flash("La solicitud ha sido rechazada.")
+    
+    return redirect('/eskaerak')
+
 
 if __name__ == "__main__":
     app.run(debug=True)
