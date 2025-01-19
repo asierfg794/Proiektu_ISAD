@@ -25,7 +25,7 @@ class Alokatu:
         db.update("UPDATE pelikula SET alokairuKopurua=? WHERE id_pelikula = ?", (alokairuKop, id_pelikula))
         hasieraData = datetime.now()
         amaieraData = hasieraData + timedelta(days=2)
-        db.insert("INSERT INTO alokairua (NAN, id_pelikula, hasieraData) VALUES (?,?, ?)", (NAN, id_pelikula, hasieraData,amaieraData))
+        db.insert("INSERT INTO alokairua (NAN, id_pelikula, hasieraData, amaieraData) VALUES (?,?, ?, ?)", (NAN, id_pelikula, hasieraData,amaieraData))
         
     
     def pelikula_alokatuak_lortu(self, NAN):

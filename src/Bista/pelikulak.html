@@ -1,42 +1,4 @@
-<!--<!DOCTYPE html>
-<html lang="eu">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BIDEOKLUBA - Katalogoa</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .container {
-            text-align: center;
-        }
-        .catalogo {
-            margin-top: 20px;
-        }
-        .pelikula {
-            margin: 10px 0;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>BIDEOKLUBA - Katalogoa</h1>
-        <div class="catalogo">
-            {% for pelikula in pelikulak %}
-                <div class="pelikula">{{ pelikula.titulo }}</div>
-                <form action="/pelikulak/alokatu/{{ pelikula[0] }}" method="POST">
-                    <button type="submit">ALOKATU</button>
-                </form>
-            {% endfor %}
-        </div>
-    </div>
-</body>
-</html> -->
+
 <!DOCTYPE html>
 <html lang="eu">
 <head>
@@ -55,14 +17,14 @@
         }
         .container {
             width: 100%;
-            max-width: 1200px; /* Limita el ancho máximo */
+            max-width: 1200px; 
             padding: 20px;
             box-sizing: border-box;
         }
         .catalogo {
             margin-top: 20px;
             display: flex;
-            flex-wrap: wrap; /* Permite que los elementos se ajusten */
+            flex-wrap: wrap; 
             gap: 20px;
         }
         .pelikula {
@@ -74,14 +36,14 @@
             border: 1px solid #ccc;
             border-radius: 8px;
             padding: 15px;
-            width: 300px; /* Establece un ancho fijo para las tarjetas */
+            width: 300px; 
             box-sizing: border-box;
         }
         .pelikula-info {
             flex-grow: 1;
         }
         .puntuazioa {
-            display: none; /* Ocultar puntuaciones por defecto */
+            display: none; 
         }
         .pelikula h2 {
             margin: 0;
@@ -138,21 +100,21 @@
     <div id="container">
             {% for pelikula in pelikulak %}
                 <div class="pelikula" data-puntuazioa="{{ pelikula[3] }}">
-                    <!-- Información de la película -->
+                    
                     <div class="pelikula-info">
-                        <h2>{{ pelikula[1] }}</h2> <!-- Titulo de la película -->
-                        <p>{{ pelikula[2] }}</p> <!-- Descripción de la película -->
+                        <h2>{{ pelikula[1] }}</h2> 
+                        <p>{{ pelikula[2] }}</p> 
                         <div class="puntuazioa">
-                            <p>Puntuazioa: {{ pelikula[3] }}</p> <!-- Puntuación de la película -->
+                            <p>Puntuazioa: {{ pelikula[3] }}</p> 
                         </div>
                     </div>
 
-                     <!-- Botón para alquilar -->
+                     
                      <form action="/pelikulak/iruzkinak/{{ pelikula[0] }}" method="GET">
                         <button type="submit">IRUZKINAK</button>
                     </form>
 
-                    <!-- Botón para alquilar -->
+                    
                     <form action="/pelikulak/alokatu/{{ pelikula[0] }}" method="POST">
                         <button type="submit">ALOKATU</button>
                     </form>

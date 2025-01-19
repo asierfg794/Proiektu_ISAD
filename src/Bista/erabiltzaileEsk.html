@@ -3,24 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solicitudes de Registro</title>
+    <title>Erregistro eskaerak</title>
 </head>
 <body>
-    <h1>Solicitudes de Registro</h1>
+    <h1>Erregistro eskaerak</h1>
     
     {% if usuarios %}
         <table>
             <tr>
                 <th>NAN</th>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Acción</th>
+                <th>Izena</th>
+                <th>Abizena</th>
+                <th>Akzioa</th>
             </tr>
             {% for usuario in usuarios %}
                 <tr>
-                    <td>{{ usuario[0] }}</td>  <!-- Suponiendo que el NAN está en la columna 0 -->
-                    <td>{{ usuario[1] }}</td>  <!-- Nombre -->
-                    <td>{{ usuario[2] }}</td>  <!-- Apellido -->
+                    <td>{{ usuario[0] }}</td>  
+                    <td>{{ usuario[1] }}</td>  
+                    <td>{{ usuario[2] }}</td> 
                     <td>
                         <form action="{{ url_for('aceptar_usuario', nan=usuario[0]) }}" method="post">
                             <button type="submit">Aceptar</button>

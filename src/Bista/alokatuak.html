@@ -1,17 +1,4 @@
-<!--<!DOCTYPE html>
-<html>
-<head>
-    <title>NIRE PELIKULAK</title>
-</head>
-<body>
-    <h1>Alokatutako Pelikulak</h1>
-    <ul>
-        {% for pelikula in pelikulak %}
-        <li>{{ pelikula[0] }} ({{ pelikula[1] }})</li>
-        {% endfor %}
-    </ul>
-</body>
-</html> -->
+
 <!DOCTYPE html>
 <html lang="eu">
 <head>
@@ -88,7 +75,7 @@
                         <td>{{ pelikula[0] }}</td> <!-- Pelikularen izena -->
                         <td>{{ pelikula[1] }}</td> <!-- Pelikularen deskribapena -->
                         <td>{{ pelikula[2] }}</td> <!-- Hasiera Data -->
-                        <td>{{ ((datetime.now() - pelikula[2].total_seconds() // 3600)) }} ordu</td> <!-- Amaiera Data -->
+                        <td>{{ pelikula[3] }}</td> <!-- Amaiera Data -->
                     </tr>
                 {% endfor %}
             </tbody>
