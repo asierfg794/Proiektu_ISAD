@@ -88,7 +88,7 @@
                         <td>{{ pelikula[0] }}</td> <!-- Pelikularen izena -->
                         <td>{{ pelikula[1] }}</td> <!-- Pelikularen deskribapena -->
                         <td>{{ pelikula[2] }}</td> <!-- Hasiera Data -->
-                        <td>{{ pelikula[3] }}</td> <!-- Amaiera Data -->
+                        <td>{{ ((datetime.now() - pelikula[2].total_seconds() // 3600)) }} ordu</td> <!-- Amaiera Data -->
                     </tr>
                 {% endfor %}
             </tbody>

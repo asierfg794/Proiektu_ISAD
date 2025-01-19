@@ -8,6 +8,7 @@ from ..Eredua.DB_Hasieratu import init_db
 from werkzeug.security import generate_password_hash
 from werkzeug.security import check_password_hash
 from ..Eredua.Konexioa import Konexioa
+from datetime import datetime
 
 app = Flask(__name__, template_folder='../Bista')
 app.secret_key = 'secret_key'
@@ -221,7 +222,10 @@ def pelikula_alokatu(id_pelikula):
 @app.route("/alokatuak")
 def alokatuak_erakutsi():
     pelikulak = Alokatu().pelikula_alokatuak_lortu(session["nan"])
-    return render_template("alokatuak.html", pelikulak=pelikulak)
+    pelikulak = [list(pelikula) for pelikula in pelikulak]
+    for pelikula in pelikulak:
+        pelikula[2] = datetime.strptime(pelikula[2], '%Y-%m-%d %H:%M:%S.%f')
+    return render_template("alokatuak.html", pelikulak=pelikulak, datetime=datetime)
 
 @app.route("/eskaerak")
 def eskaera_egin(titulo,api_key):

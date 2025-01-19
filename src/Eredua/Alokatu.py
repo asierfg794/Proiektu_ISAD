@@ -1,5 +1,7 @@
+
 import sqlite3
 from .Konexioa import Konexioa
+from datetime import datetime, timedelta
 
 db = Konexioa()
 class Alokatu:
@@ -21,11 +23,13 @@ class Alokatu:
         alokairuKop += 1
         
         db.update("UPDATE pelikula SET alokairuKopurua=? WHERE id_pelikula = ?", (alokairuKop, id_pelikula))
-        db.insert("INSERT INTO alokairua (NAN, id_pelikula) VALUES (?,?)", (NAN, id_pelikula))
+        hasieraData = datetime.now()
+        db.insert("INSERT INTO alokairua (NAN, id_pelikula, hasieraData) VALUES (?,?, ?)", (NAN, id_pelikula, hasieraData))
+        
     
     def pelikula_alokatuak_lortu(self, NAN):
         
-        
         pelikulak = db.select("SELECT p.izena, p.deskribapena, a.hasieraData, a.amaieraData FROM alokairua a JOIN pelikula p ON a.id_pelikula = p.id_pelikula WHERE a.nan = ?", (NAN,))
+
 
         return pelikulak
