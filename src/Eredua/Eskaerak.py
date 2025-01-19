@@ -32,7 +32,6 @@ from .Konexioa import Konexioa
 
 db = Konexioa()
 
-
 def obtener_solicitudes():
         """Devuelve todas las solicitudes que se encuentran en memoria."""
         return []  

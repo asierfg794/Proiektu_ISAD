@@ -25,4 +25,10 @@ class Balorazioa:
             db.update("UPDATE balorazioa SET puntuazioa = ?, iruzkina = ? WHERE id_pelikula = ? AND nan = ?", (puntuazioa, iruzkina, id_pelikula, nan))
         else:
             db.insert("INSERT INTO balorazioa (id_pelikula, nan, puntuazioa, iruzkina) VALUES (?,?,?,?)", (id_pelikula, nan, puntuazioa, iruzkina))
+            db.update("UPDATE pelikula SET iruzkinKopurua = iruzkinKopurua + 1 WHERE id_pelikula = ?", (id_pelikula,))
+        
+        puntuazioak = db.select("SELECT puntuazioa FROM balorazioa WHERE id_pelikula = ?", (id_pelikula,))
+        puntuazioak = [p[0] for p in puntuazioak]
+        puntuazio_media = sum(puntuazioak) / len(puntuazioak)
+        db.update("UPDATE pelikula SET puntuazioa = ? WHERE id_pelikula = ?", (puntuazio_media, id_pelikula))
         return True
