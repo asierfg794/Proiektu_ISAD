@@ -54,6 +54,8 @@ class api:
             """Crea una solicitud para agregar una nueva película."""
             pelicula = api.pelikula_bilatu(titulo, api_key)
             if isinstance(pelicula, dict):
+                izena = pelicula.get("Title", "Desconocido")[:50]  
+                deskribapena = pelicula.get("Plot", "Sin descripción disponible")[:500]
                 db.insert("""INSERT INTO eskaera (nan, estado, fecha_solicitud)VALUES (?, ?, CURRENT_TIMESTAMP)""", ("placeholder_nan", "pendiente"))
                 return {
                     "success": True,

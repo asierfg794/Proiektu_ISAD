@@ -66,12 +66,13 @@ def init_db():
     
     c.execute("""
                 CREATE TABLE IF NOT EXISTS eskaera(
-                id int primary key,
+                id_eskaera INTEGER primary key autoincrement,
                 nan varchar(9),
-                id_pelikula int,
+                izena varchar(50),
+                deskribapena varchar(500),
                 estado varchar(20) default 'pendiente',
                 fecha_solicitud timestamp default current_timestamp,
-                foreign key (nan) references Erabiltzailea(nsn),
+                foreign key (nan) references Erabiltzailea(nan),
                 foreign key (id_pelikula) references Film(id_pelikula)
               )
               """
