@@ -212,6 +212,19 @@ def alokatuak_erakutsi():
         pelikula[2] = datetime.strptime(pelikula[2], '%Y-%m-%d %H:%M:%S.%f')
     return render_template("alokatuak.html", pelikulak=pelikulak, datetime=datetime)
 
+@app.route('/eskaerak', methods=['GET'])
+def listar_solicitudes():
+    # Verificar si el usuario está logueado y es administrador
+    if 'nan' not in session or not session.get('is_admin', False):
+        return redirect('/login')
+    
+    # Obtener todas las solicitudes pendientes
+    solicitudes = db.select("SELECT * FROM eskaerak WHERE estado = 'pendiente'")
+    
+    # Renderizar la página HTML con las solicitudes
+    return render_template("eskaerak.html", solicitudes=solicitudes)
+
+
 @app.route('/eskaera/aceptar/<int:id>', methods=['POST'])
 def aceptar_solicitud(id):
     # Verificar si el usuario es administrador
