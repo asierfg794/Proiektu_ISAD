@@ -5,7 +5,7 @@ from ..Eredua.Balorazioa import Balorazioa
 from ..Eredua.Pelikula import Pelikula
 from ..Eredua.Erabiltzailea import Erabiltzailea
 from ..Eredua.Alokatu import Alokatu
-from ..Eredua.api import api
+from ..Eredua.Eskaerak import api
 from ..Eredua.DB_Hasieratu import init_db
 from werkzeug.security import generate_password_hash
 from werkzeug.security import check_password_hash
@@ -212,29 +212,49 @@ def alokatuak_erakutsi():
         pelikula[2] = datetime.strptime(pelikula[2], '%Y-%m-%d %H:%M:%S.%f')
     return render_template("alokatuak.html", pelikulak=pelikulak, datetime=datetime)
 
-@app.route('/eskaerak', methods=['GET'])
+@app.route('/eskaera', methods=['GET'])
 def listar_solicitudes():
-    # Verificar si el usuario está logueado y es administrador
+    
     if 'nan' not in session or not session.get('is_admin', False):
         return redirect('/login')
     
-    # Obtener todas las solicitudes pendientes
+   
     solicitudes = db.select("SELECT * FROM eskaerak WHERE estado = 'pendiente'")
     
-    # Renderizar la página HTML con las solicitudes
-    return render_template("eskaerak.html", solicitudes=solicitudes)
+   
+    return render_template("eskaerakAdmin.html", solicitudes=solicitudes)
+
+@app.route('/eskaera/solicitar', methods=['GET', 'POST'])
+def solicitar_pelicula():
+    if 'nan' not in session:
+        return redirect('/login')
+
+    if request.method == 'POST':
+        titulo = request.form['titulo']
+        api_key = 'tu_api_key' 
+        respuesta = api.eskaera_egin(titulo, api_key)
+
+        if respuesta['success']:
+            flash(respuesta['message'], 'success')
+            return redirect('/eskaera') 
+        else:
+            flash(respuesta['error'], 'error')
+            return render_template('eskaeraErabail.html', error=respuesta['detalle'])
+
+    return render_template('eskaerakErabil.html')
+
 
 
 @app.route('/eskaera/aceptar/<int:id>', methods=['POST'])
 def aceptar_solicitud(id):
-    # Verificar si el usuario es administrador
+    
     if 'nan' not in session or not session.get('is_admin', False):
         return redirect('/login')
     
-    # Obtener la película solicitada
+ 
     solicitud = db.select("SELECT * FROM eskaerak WHERE id = ?", (id,))
     if solicitud:
-        # Insertar la película en el catálogo de películas
+       
         pelicula = solicitud[0]
         db.insert("""
             INSERT INTO pelikula (id_pelikula, izena, deskribapena, puntuazioa, alokairuKopurua, iruzkinKopurua)
@@ -242,26 +262,26 @@ def aceptar_solicitud(id):
         """, (pelicula['id'], pelicula['izena'], pelicula['deskribapena'], pelicula['puntuazioa'], 
               pelicula['alokairuKopurua'], pelicula['iruzkinKopurua']))
         
-        # Marcar la solicitud como aceptada
+       
         db.update("UPDATE eskaerak SET estado = 'aceptada' WHERE id = ?", (id,))
         flash("Película aceptada y añadida al catálogo.")
     else:
         flash("La solicitud no fue encontrada.")
     
-    return redirect('/eskaerak')
+    return redirect('/eskaera')
 
 
 @app.route('/eskaera/rechazar/<int:id>', methods=['POST'])
 def rechazar_solicitud(id):
-    # Verificar si el usuario es administrador
+    
     if 'nan' not in session or not session.get('is_admin', False):
         return redirect('/login')
     
-    # Eliminar la solicitud o marcarla como rechazada
+    
     db.update("UPDATE eskaerak SET estado = 'rechazada' WHERE id = ?", (id,))
     flash("La solicitud ha sido rechazada.")
     
-    return redirect('/eskaerak')
+    return redirect('/eskaera')
 
 
 if __name__ == "__main__":

@@ -105,16 +105,12 @@
                         <h2>{{ pelikula[1] }}</h2> 
                         <p>{{ pelikula[2] }}</p> 
                         <div class="puntuazioa">
-                            <p>Puntuazioa: {{ pelikula[3] }}</p> 
+                            <p>Puntuazioa: {% if pelikula[5] == 0 %} - {% else %} {{ pelikula[3] }} {% endif %}</p>
                         </div>
                     </div>
-
-                     
                     <form action="/pelikulak/iruzkinak/{{ pelikula[0] }}" method="GET">
                         <button type="submit">IRUZKINAK</button>
                     </form>
-
-                    
                     <form action="/pelikulak/alokatu/{{ pelikula[0] }}" method="POST">
                         <button type="submit">ALOKATU</button>
                     </form>
