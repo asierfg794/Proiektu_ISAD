@@ -83,5 +83,13 @@ def init_db():
         c.execute(f"""INSERT OR REPLACE INTO pelikula VALUES ('{pelikula['id_pelikula']}','{pelikula['izena']}', '{pelikula['deskribapena']}', '{pelikula['puntuazioa']}','{pelikula['alokairuKopurua']}', '{pelikula['iruzkinKopurua']}')""")
         conn.commit()
 
+    json_path = os.path.join(fitx,"..","..", "jsons","balorazioak.json")
+    with open(json_path, 'r') as f:
+        balorazioak = json.load(f)['balorazioak']
+
+    for balorazioa in balorazioak:
+        c.execute(f"""INSERT OR REPLACE INTO balorazioa VALUES ('{balorazioa['id_pelikula']}','{balorazioa['nan']}', '{balorazioa['puntuazioa']}', '{balorazioa['iruzkina']}')""")
+        conn.commit()
+
     conn.commit()
     conn.close()

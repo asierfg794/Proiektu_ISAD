@@ -1,0 +1,23 @@
+{
+    "balorazioak": [
+      {
+        "id_pelikula": 1,
+        "nan": "12345678A",
+        "puntuazioa": 8,
+        "iruzkina": "Pelikula oso ona!"
+      },
+      {
+        "id_pelikula": 2,
+        "nan": "87654321B",
+        "puntuazioa": 6,
+        "iruzkina": "Ez zen hain interesgarria."
+      },
+      {
+        "id_pelikula": 1,
+        "nan": "56789012C",
+        "puntuazioa": 9,
+        "iruzkina": "Ikusgarria! Ezin hobea."
+      }
+    ]
+  }
+  
