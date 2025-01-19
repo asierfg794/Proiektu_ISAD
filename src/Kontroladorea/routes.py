@@ -41,7 +41,9 @@ def login():
         return redirect('/login')
     if user and check_password_hash(user[0][3], password):  
         session["nan"] = user[0][0]  
-        session["is_admin"] = bool(user[0][4]) 
+        session["is_admin"] = bool(user[0][4])
+
+        
         return redirect('/pelikulak')
     else:
         flash("Erabiltzailea ez da existitzen!")
@@ -97,7 +99,7 @@ def delete_user():
         if not user:
             return render_template("ezabErabiltzaile.html", error="Erabiltzailea ez da aurkitu.")
 
-        if user[0][4]:
+        if user[0][4]==1:
             return render_template("ezabErabiltzaile.html", error="Ezin dira administradoreak ezabatu.")
 
         rows_deleted = db.delete("DELETE FROM erabiltzailea WHERE nan = ?", (nan_to_delete,))
@@ -219,10 +221,10 @@ def listar_solicitudes():
         return redirect('/login')
     
    
-    solicitudes = db.select("SELECT * FROM eskaera WHERE estado = 'pendiente'")
+    eskaerak = db.select("SELECT * FROM eskaera WHERE estado = 'pendiente'")
     
    
-    return render_template("eskaerakAdmin.html", solicitudes=solicitudes)
+    return render_template("eskaerakAdmin.html", eskaerak=eskaerak)
 
 @app.route('/eskaera/solicitar', methods=['GET', 'POST'])
 def solicitar_pelicula():
@@ -252,18 +254,18 @@ def aceptar_solicitud(id):
         return redirect('/login')
     
  
-    solicitud = db.select("SELECT * FROM eskaera WHERE id = ?", (id,))
+    solicitud = db.select("SELECT * FROM eskaera WHERE id_eskaera = ?", (id,))
     if solicitud:
        
         pelicula = solicitud[0]
         db.insert("""
-            INSERT INTO pelikula (id_pelikula, izena, deskribapena, puntuazioa, alokairuKopurua, iruzkinKopurua)
-            VALUES (?, ?, ?, ?, ?, ?)
-        """, (pelicula['id'], pelicula['izena'], pelicula['deskribapena'], pelicula['puntuazioa'], 
-              pelicula['alokairuKopurua'], pelicula['iruzkinKopurua']))
+            INSERT INTO pelikula (izena, deskribapena, puntuazioa, alokairuKopurua, iruzkinKopurua)
+            VALUES (?, ?, ?, ?, ?)
+        """, ( pelicula[1], pelicula[2], pelicula[3], 
+              0, 0))
         
        
-        db.update("UPDATE eskaera SET estado = 'aceptada' WHERE id = ?", (id,))
+        db.update("UPDATE eskaera SET estado = 'aceptada' WHERE id_eskaera = ?", (id,))
         flash("Película aceptada y añadida al catálogo.")
     else:
         flash("La solicitud no fue encontrada.")
@@ -278,7 +280,7 @@ def rechazar_solicitud(id):
         return redirect('/login')
     
     
-    db.update("UPDATE eskaerak SET estado = 'rechazada' WHERE id = ?", (id,))
+    db.update("UPDATE eskaera SET estado = 'rechazada' WHERE id_eskaera = ?", (id,))
     flash("La solicitud ha sido rechazada.")
     
     return redirect('/eskaera')

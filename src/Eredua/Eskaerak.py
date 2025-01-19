@@ -56,7 +56,7 @@ class api:
             if isinstance(pelicula, dict):
                 izena = pelicula.get("Title", "Desconocido")[:50]  
                 deskribapena = pelicula.get("Plot", "Sin descripción disponible")[:500]
-                db.insert("""INSERT INTO eskaera (nan, estado, fecha_solicitud)VALUES (?, ?, CURRENT_TIMESTAMP)""", ("placeholder_nan", "pendiente"))
+                db.insert("""INSERT INTO eskaera (izena, deskribapena, fecha_solicitud)VALUES (?, ?, CURRENT_TIMESTAMP)""", (izena, deskribapena ))
                 return {
                     "success": True,
                     "message": f"La película '{titulo}' ha sido añadida a las solicitudes pendientes.",
