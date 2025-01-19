@@ -9,6 +9,8 @@ class Pelikula:
     def connect(self):
         conexion = sqlite3.connect(self.db_name)
         return conexion
+    def disconnect(self):
+        self.conexion.close()
     
     def inf_lortu(self):
         return f"{self.id} - {self.izena} - {self.deskribapena} - {self.puntuazioa} - {self.alokairuKop} - {self.iruzkinKop}"
@@ -24,6 +26,7 @@ class Pelikula:
         #pelikulak = cursor.fetchall()
         #conexion.close()
         return pelikulak
+    
     
 
 
