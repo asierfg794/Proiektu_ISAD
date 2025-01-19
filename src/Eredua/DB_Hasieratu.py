@@ -14,6 +14,8 @@ def init_db():
     c.execute("DROP TABLE IF EXISTS erabiltzailea")
     c.execute("DROP TABLE IF EXISTS pelikula")
     c.execute("DROP TABLE IF EXISTS alokairua")
+    c.execute("DROP TABLE IF EXISTS balorazioa")
+    c.execute("DROP TABLE IF EXISTS eskaera")
     c.execute("""
             CREATE TABLE IF NOT EXISTS erabiltzailea(
                 nan varchar(9) PRIMARY KEY,
@@ -28,7 +30,7 @@ def init_db():
     
     c.execute("""
                 CREATE TABLE IF NOT EXISTS pelikula(
-                id_pelikula int primary key,
+                id_pelikula INTEGER primary key autoincrement,
                 izena varchar(50),
                 deskribapena varchar(500),
                 puntuazioa int,
@@ -62,18 +64,16 @@ def init_db():
                 unique (id_pelikula, nan),
                 check (puntuazioa >= 0 and puntuazioa <= 10)
             )
-            """)
+            """
+              )
     
     c.execute("""
                 CREATE TABLE IF NOT EXISTS eskaera(
                 id_eskaera INTEGER primary key autoincrement,
-                nan varchar(9),
                 izena varchar(50),
                 deskribapena varchar(500),
                 estado varchar(20) default 'pendiente',
-                fecha_solicitud timestamp default current_timestamp,
-                foreign key (nan) references Erabiltzailea(nan),
-                foreign key (id_pelikula) references Film(id_pelikula)
+                fecha_solicitud timestamp default current_timestamp
               )
               """
             )
@@ -94,7 +94,7 @@ def init_db():
         pelikulak = json.load(f)['pelikulak']
 
     for pelikula in pelikulak:
-        c.execute(f"""INSERT OR REPLACE INTO pelikula VALUES ('{pelikula['id_pelikula']}','{pelikula['izena']}', '{pelikula['deskribapena']}', '{pelikula['puntuazioa']}','{pelikula['alokairuKopurua']}', '{pelikula['iruzkinKopurua']}')""")
+        c.execute(f"""INSERT OR REPLACE INTO pelikula(izena, deskribapena, puntuazioa, alokairuKopurua, iruzkinKopurua ) VALUES ('{pelikula['izena']}', '{pelikula['deskribapena']}', '{pelikula['puntuazioa']}','{pelikula['alokairuKopurua']}', '{pelikula['iruzkinKopurua']}')""")
         conn.commit()
 
     json_path = os.path.join(fitx,"..","..", "jsons","balorazioak.json")

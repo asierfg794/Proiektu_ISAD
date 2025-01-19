@@ -77,17 +77,17 @@
             <tbody>
                 {% for eskaera in eskaerak %}
                     <tr>
-                        <td>{{ eskaera.izena }}</td> 
-                        <td>{{ eskaera.deskribapena }}</td> 
+                        <td>{{ eskaera[1] }}</td> 
+                        <td>{{ eskaera [2] }}</td> 
                         <td>{{ eskaera.puntuazioa }}</td> 
                         <td>
                             <!-- Botón para aceptar -->
-                            <form method="POST" action="/admin/accept_request">
+                            <form method="POST" action="{{url_for('aceptar_solicitud', id=eskaera[0])}}">
                                 <input type="hidden" name="id_eskaera" value="{{ eskaera.id_eskaera }}">
                                 <button type="submit" class="btn">Onartu</button>
                             </form>
                             <!-- Botón para rechazar -->
-                            <form method="POST" action="/admin/reject_request" style="margin-top: 10px;">
+                            <form method="POST" action="{{url_for('rechazar_solicitud' , id=eskaera[0]) }} " style="margin-top: 10px;">
                                 <input type="hidden" name="id_eskaera" value="{{ eskaera.id_eskaera }}">
                                 <button type="submit" class="btn btn-deny">Ezeztatu</button>
                             </form>

@@ -1,7 +1,6 @@
 {
     "pelikulak" : [
     {
-      "id_pelikula": 1,
       "izena": "El Padrino",
       "deskribapena": "Un drama sobre el crimen organizado en los Estados Unidos, centrado en la familia Corleone.",
       "puntuazioa": 9,
@@ -9,7 +8,6 @@
       "iruzkinKopurua": 50
     },
     {
-      "id_pelikula": 2,
       "izena": "La Guerra de las Galaxias: Episodio IV - Una Nueva Esperanza",
       "deskribapena": "La lucha entre la Rebelión y el Imperio Galáctico, centrada en la historia de Luke Skywalker.",
       "puntuazioa": 8,
@@ -17,7 +15,6 @@
       "iruzkinKopurua": 150
     },
     {
-      "id_pelikula": 3,
       "izena": "Inception",
       "deskribapena": "Un ladrón especializado en la extracción de secretos a través de los sueños se embarca en una misión imposible.",
       "puntuazioa": 9,
@@ -25,7 +22,6 @@
       "iruzkinKopurua": 120
     },
     {
-      "id_pelikula": 4,
       "izena": "Titanic",
       "deskribapena": "Una historia de amor en el contexto del desastre del Titanic en 1912.",
       "puntuazioa": 8,
@@ -33,7 +29,6 @@
       "iruzkinKopurua": 180
     },
     {
-      "id_pelikula": 5,
       "izena": "Jurassic Park",
       "deskribapena": "Un parque temático con dinosaurios clonados se convierte en un caos cuando los animales escapan.",
       "puntuazioa": 8,
