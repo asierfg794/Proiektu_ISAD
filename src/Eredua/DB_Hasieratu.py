@@ -64,6 +64,19 @@ def init_db():
             )
             """)
     
+    c.execute("""
+                CREATE TABLE IF NOT EXISTS eskaera(
+                id int primary key,
+                nan varchar(9),
+                id_pelikula int,
+                estado varchar(20) default 'pendiente',
+                fecha_solicitud timestamp default current_timestamp,
+                foreign key (nan) references Erabiltzailea(nsn),
+                foreign key (id_pelikula) references Film(id_pelikula)
+              )
+              """
+            )
+    
     json_path = os.path.join(fitx,"..","..", "jsons","erabiltzaileak.json")
     with open(json_path, 'r') as f:
         erabiltzaileak = json.load(f)['erabiltzaileak']

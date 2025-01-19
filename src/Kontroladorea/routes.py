@@ -219,7 +219,7 @@ def listar_solicitudes():
         return redirect('/login')
     
    
-    solicitudes = db.select("SELECT * FROM eskaerak WHERE estado = 'pendiente'")
+    solicitudes = db.select("SELECT * FROM eskaera WHERE estado = 'pendiente'")
     
    
     return render_template("eskaerakAdmin.html", solicitudes=solicitudes)
@@ -231,15 +231,15 @@ def solicitar_pelicula():
 
     if request.method == 'POST':
         titulo = request.form['titulo']
-        api_key = 'tu_api_key' 
+        api_key = '3870507c' 
         respuesta = api.eskaera_egin(titulo, api_key)
 
-        if respuesta['success']:
+        if respuesta.get('success', False):
             flash(respuesta['message'], 'success')
             return redirect('/eskaera') 
         else:
             flash(respuesta['error'], 'error')
-            return render_template('eskaeraErabail.html', error=respuesta['detalle'])
+            return render_template('eskaerakErabil.html', error=respuesta['detalle'])
 
     return render_template('eskaerakErabil.html')
 
@@ -252,7 +252,7 @@ def aceptar_solicitud(id):
         return redirect('/login')
     
  
-    solicitud = db.select("SELECT * FROM eskaerak WHERE id = ?", (id,))
+    solicitud = db.select("SELECT * FROM eskaera WHERE id = ?", (id,))
     if solicitud:
        
         pelicula = solicitud[0]
@@ -263,7 +263,7 @@ def aceptar_solicitud(id):
               pelicula['alokairuKopurua'], pelicula['iruzkinKopurua']))
         
        
-        db.update("UPDATE eskaerak SET estado = 'aceptada' WHERE id = ?", (id,))
+        db.update("UPDATE eskaera SET estado = 'aceptada' WHERE id = ?", (id,))
         flash("Película aceptada y añadida al catálogo.")
     else:
         flash("La solicitud no fue encontrada.")

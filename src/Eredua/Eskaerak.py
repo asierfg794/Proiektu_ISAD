@@ -31,59 +31,59 @@ from .Konexioa import Konexioa
 
 
 db = Konexioa()
+class api:
+    def obtener_solicitudes():
+            """Devuelve todas las solicitudes que se encuentran en memoria."""
+            return []  
 
-def obtener_solicitudes():
-        """Devuelve todas las solicitudes que se encuentran en memoria."""
-        return []  
+    def pelikula_bilatu(titulo, api_key):
+            """Busca la película en la API externa."""
+            url = f"http://www.omdbapi.com/?apikey={api_key}&t={titulo}"
+            respuesta = requests.get(url)
 
-def pelikula_bilatu(titulo, api_key):
-        """Busca la película en la API externa."""
-        url = f"http://www.omdbapi.com/?apikey={api_key}&t={titulo}"
-        respuesta = requests.get(url)
-
-        if respuesta.status_code == 200:
-            datos = respuesta.json()
-            if datos["Response"] == "True":
-                return datos
+            if respuesta.status_code == 200:
+                datos = respuesta.json()
+                if datos["Response"] == "True":
+                    return datos
+                else:
+                    return f"Error: {datos['Error']}"
             else:
-                return f"Error: {datos['Error']}"
-        else:
-            return "Error al hacer la solicitud"
+                return "Error al hacer la solicitud"
 
-def eskaera_egin(titulo, api_key):
-        """Crea una solicitud para agregar una nueva película."""
-        pelicula = pelikula_bilatu(titulo, api_key)
-        if isinstance(pelicula, dict):
-            
-            return {
-                "success": True,
-                "message": f"La película '{titulo}' ha sido añadida a las solicitudes pendientes.",
-            }
-        else:
-            return {
-                "error": f"No se pudo encontrar la película '{titulo}'",
-                "detalle": pelicula,
-            }
+    def eskaera_egin(titulo, api_key):
+            """Crea una solicitud para agregar una nueva película."""
+            pelicula = api.pelikula_bilatu(titulo, api_key)
+            if isinstance(pelicula, dict):
+                
+                return {
+                    "success": True,
+                    "message": f"La película '{titulo}' ha sido añadida a las solicitudes pendientes.",
+                }
+            else:
+                return {
+                    "error": f"No se pudo encontrar la película '{titulo}'",
+                    "detalle": pelicula,
+                }
 
-def aceptar_solicitud(id): 
-        """Acepta una solicitud, agrega la película a la base de datos y elimina la solicitud."""
-    
-        solicitud = db.select("SELECT * FROM eskaerak WHERE id = ?", (id,))
-        if solicitud:
+    def aceptar_solicitud(id): 
+            """Acepta una solicitud, agrega la película a la base de datos y elimina la solicitud."""
         
-            titulo = solicitud[0]['titulo']
-            descripcion = solicitud[0]['descripcion']
-            puntuacion = 0  
-            db.insert("""
-                INSERT INTO pelikula (izena, deskribapena, puntuazioa, alokairuKopurua, iruzkinKopurua)
-                VALUES (?, ?, ?, ?, ?)
-            """, (titulo, descripcion, puntuacion, 0, 0))  
+            solicitud = db.select("SELECT * FROM eskaera WHERE id = ?", (id,))
+            if solicitud:
+            
+                titulo = solicitud[0]['titulo']
+                descripcion = solicitud[0]['descripcion']
+                puntuacion = 0  
+                db.insert("""
+                    INSERT INTO pelikula (izena, deskribapena, puntuazioa, alokairuKopurua, iruzkinKopurua)
+                    VALUES (?, ?, ?, ?, ?)
+                """, (titulo, descripcion, puntuacion, 0, 0))  
 
-            
-            db.delete("DELETE FROM eskaerak WHERE id = ?", (id,))
-            
-            return True  
-        return False  
+                
+                db.delete("DELETE FROM eskaera WHERE id = ?", (id,))
+                
+                return True  
+            return False  
 
 
 
